@@ -21,7 +21,7 @@ public class CharacterMovement : MonoBehaviour
 
     void Start()
     {
-        characterController = GetComponent<CharacterController>();
+        characterController = gameObject.GetComponent<CharacterController>();
         Vector3 rot = transform.localRotation.eulerAngles;
         rotY = rot.y;
         rotX = rot.x;
