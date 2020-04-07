@@ -18,6 +18,8 @@ public class CharacterMovement : MonoBehaviour
     private float rotY = 0.0f;
     private float rotX = 0.0f;
     public float inputSensitivity = 150.0f;
+    public LayerMask layerMask; 
+   
 
     void Start()
     {
@@ -65,5 +67,25 @@ public class CharacterMovement : MonoBehaviour
         //ONLY ROTATES ON THE rotY AXIS NOT X
         Quaternion localRotation = Quaternion.Euler(0, rotY, 0.0f);
         transform.rotation = localRotation;
+
+        RaycastHit hit;
+        // Does the ray intersect any objects excluding the player layer
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask))
+        {
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+            Debug.Log("Did Hit");
+        }
+        else
+        {
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 10, Color.white);
+            Debug.Log("Did not Hit");
+        }
+
+    }
+    void OnDrawGizmos()
+    {
+        Ray ray = new Ray(transform.position, transform.TransformDirection(Vector3.forward) * 10);
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(ray);
     }
 }
