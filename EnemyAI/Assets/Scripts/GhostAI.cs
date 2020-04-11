@@ -6,7 +6,6 @@ using UnityEngine.AI;
 public class GhostAI : MonoBehaviour
 {
     public float lookRadius = 10f;
-
     Transform target;
     NavMeshAgent agent;
     public Transform[] moveSpots;

@@ -34,15 +34,6 @@ public class FlashLightFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Exit Game
-        if (Input.GetKey(KeyCode.Escape))
-        {
-            Application.Quit();
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#endif
-        }
-
         //EXACT ROTATION AS THE CAMERA
         float inputX = Input.GetAxis("RightStickHorizontal");
         float inputY = Input.GetAxis("RightStickVertical");
