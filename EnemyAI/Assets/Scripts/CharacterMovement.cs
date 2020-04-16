@@ -70,19 +70,20 @@ public class CharacterMovement : MonoBehaviour
 
         RaycastHit hit;
         // Does the ray intersect any objects excluding the player layer
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask))
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 3f, layerMask))
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
             Debug.Log("Did Hit");
         }
         else
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 10, Color.white);
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 3, Color.white);
             Debug.Log("Did not Hit");
         }
+      
 
     }
-    void OnDrawGizmos()
+   void OnDrawGizmos()
     {
         Ray ray = new Ray(transform.position, transform.TransformDirection(Vector3.forward) * 10);
         Gizmos.color = Color.red;
