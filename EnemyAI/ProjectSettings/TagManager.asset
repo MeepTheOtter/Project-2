@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - 'Interactable '
+  - Sphere
   layers:
   - Default
   - TransparentFX
@@ -16,8 +17,8 @@ TagManager:
   - 
   - PostProcessing
   - Interaction
-  - 
-  - 
+  - Walls
+  - Floors
   - 
   - 
   - 

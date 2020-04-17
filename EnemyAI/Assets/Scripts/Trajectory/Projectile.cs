@@ -6,7 +6,10 @@ public class Projectile : MonoBehaviour
 {
     public Rigidbody bulletPrefabs;
     public GameObject cursor;
+    public GameObject player;
     public LayerMask layer;
+    public LayerMask wallLayer;
+    public LayerMask floorLayer;
     public Transform shootPoint;
     public LineRenderer lineVisual;
     public int lineSegment = 10;
@@ -35,13 +38,31 @@ public class Projectile : MonoBehaviour
         {
             cursor.SetActive(true);
             cursor.transform.position = hit.point + Vector3.up * 0.1f;
+            if (Physics.Raycast(camRay, out hit, 100f, wallLayer))
+            {
+                cursor.transform.rotation = Quaternion.LookRotation(player.transform.position, Vector3.down);
+               /* if (cursor.transform.rotation < 45) cursor.transform.rotation = 0;
+                else if (cursor.transform.rotation >= 45) cursor.transform.rotation = 90;
+                else if (cursor.transform.rotation >= 135) cursor.transform.rotation = 180;
+                else if (cursor.transform.rotation < 135) cursor.transform.rotation = 90;
+                else if (cursor.transform.rotation >= 225) cursor.transform.rotation = 270;
+                else if (cursor.transform.rotation < 225) cursor.transform.rotation = 180;
+                else if (cursor.transform.rotation >= 315) cursor.transform.rotation = 0;
+                else if (cursor.transform.rotation < 315) cursor.transform.rotation = 270;
+                else {
+                }*/
+            }
+            if (Physics.Raycast(camRay, out hit, 100f, floorLayer))
+            {
+                cursor.transform.rotation = Quaternion.Euler(90, 0, 0);
+            }
 
             Vector3 vO = CalculateVelocity(hit.point, shootPoint.position, 1f);
             
             Visualize(vO);
             
-            transform.rotation = Quaternion.LookRotation(vO);
-            transform.Rotate(0, -90, 0);
+            //transform.rotation = Quaternion.LookRotation(vO);
+            //transform.Rotate(0, -90, 0);
 
             if (Input.GetMouseButtonDown(0))
             {
