@@ -18,4 +18,5 @@ public class PlayerManager : MonoBehaviour
     #endregion
 
     public GameObject player;
+    public static int keys = 0;
 }
