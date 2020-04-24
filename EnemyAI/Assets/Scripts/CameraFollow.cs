@@ -23,6 +23,7 @@ public class CameraFollow : MonoBehaviour
     private float rotY = 0.0f;
     private float rotX = 0.0f;
     public LayerMask layerMask;
+    public Canvas Canvas;
     // Start is called before the first frame update
     void Start()
     {
@@ -69,6 +70,7 @@ public class CameraFollow : MonoBehaviour
         // Does the ray intersect any objects excluding the player layer
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 3f, layerMask))
         {
+            Canvas.enabled = true;
             if (Input.GetKeyDown(KeyCode.E))
             {
                 if (hit.collider.gameObject.tag == "Sphere")
@@ -88,6 +90,7 @@ public class CameraFollow : MonoBehaviour
         else
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 3, Color.white);
+            Canvas.enabled = false;
             //Debug.Log("Did not Hit");
         }
     }

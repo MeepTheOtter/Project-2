@@ -5,13 +5,14 @@ using UnityEngine.AI;
 
 public class GhostAI : MonoBehaviour
 {
-    public float lookRadius = 10f;
-    Transform target;
+    public float lookRadius = 4f;
     NavMeshAgent agent;
-    //public Transform[] moveSpots;
+    Transform target;
     private int randomSpot;
     private float waitTime;
+    public float wanderTimer;
     public float startWaitTime;
+    public float wanderRadius = 50f;
 
     // Start is called before the first frame update
     void Start()
@@ -27,37 +28,37 @@ public class GhostAI : MonoBehaviour
     {
         float distance = Vector3.Distance(target.position, transform.position);
 
-        //if (distance <= lookRadius)
-        //{
-        //    agent.SetDestination(target.position);
-        //    waitTime = startWaitTime;
-        //}
-        //else
-        //{
-        //    if (waitTime <= 0)
-        //    {
-        //        agent.SetDestination(moveSpots[randomSpot].position);
-        //        waitTime = startWaitTime;
-        //    }
-        //    else
-        //    {
-        //        waitTime -= Time.deltaTime;
-        //    }
-        //}
+        if (distance <= lookRadius)
+        {
+            agent.SetDestination(target.position);
+            waitTime = startWaitTime;
+        }
+        else
+        {
+            if (waitTime >= wanderTimer)
+            {
+                Vector3 newPos = RandomNavSphere(transform.position, wanderRadius, -1);
+                agent.SetDestination(newPos);
+                waitTime = 0;
+            }
+            else
+            {
+                waitTime += Time.deltaTime;
+            }
+        }
+    }
 
+    public static Vector3 RandomNavSphere(Vector3 origin, float distance, int layermask)
+    {
+        Vector3 randomDirection = Random.insideUnitSphere * distance;
 
-        //if (Vector3.Distance(transform.position, moveSpots[randomSpot].position) < 3f)
-        //{
-        //    if (waitTime <= 0)
-        //    {
-        //        randomSpot = Random.Range(0, moveSpots.Length);
-        //        waitTime = startWaitTime;
-        //    }
-        //    else
-        //    {
-        //        waitTime -= Time.deltaTime;
-        //    }
-        //}
+        randomDirection += origin;
+
+        NavMeshHit navHit;
+
+        NavMesh.SamplePosition(randomDirection, out navHit, distance, layermask);
+
+        return navHit.position;
     }
 
 

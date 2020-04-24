@@ -13,6 +13,7 @@ public class Projectile : MonoBehaviour
     public Transform shootPoint;
     public LineRenderer lineVisual;
     public int lineSegment = 10;
+    public bool shootMode = false;
 
     private Camera cam;
     // Start is called before the first frame update
@@ -26,62 +27,76 @@ public class Projectile : MonoBehaviour
     void Update()
     {
         LaunchProjectile();
-        
+
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            if (shootMode == true)
+            {
+                shootMode = false;
+                lineVisual.startWidth = 0f;
+                lineVisual.endWidth = 0f;
+                cursor.SetActive(false);
+            }
+            else
+            {
+                shootMode = true;
+                lineVisual.startWidth = .01f;
+                lineVisual.endWidth = .18f;
+                cursor.SetActive(true);
+            }
+        }
     }
 
     void LaunchProjectile()
     {
-        Ray camRay = cam.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        if (Physics.Raycast(camRay,out hit, 100f, layer))
+        if (shootMode == true)
         {
-            cursor.SetActive(true);
-            cursor.transform.position = hit.point + Vector3.up * 0.1f;
-            if (Physics.Raycast(camRay, out hit, 100f, wallLayer))
-            {
-                cursor.transform.rotation = Quaternion.LookRotation(player.transform.position, Vector3.down);
-               /* if (cursor.transform.rotation < 45) cursor.transform.rotation = 0;
-                else if (cursor.transform.rotation >= 45) cursor.transform.rotation = 90;
-                else if (cursor.transform.rotation >= 135) cursor.transform.rotation = 180;
-                else if (cursor.transform.rotation < 135) cursor.transform.rotation = 90;
-                else if (cursor.transform.rotation >= 225) cursor.transform.rotation = 270;
-                else if (cursor.transform.rotation < 225) cursor.transform.rotation = 180;
-                else if (cursor.transform.rotation >= 315) cursor.transform.rotation = 0;
-                else if (cursor.transform.rotation < 315) cursor.transform.rotation = 270;
-                else {
-                }*/
-            }
-            if (Physics.Raycast(camRay, out hit, 100f, floorLayer))
-            {
-                cursor.transform.rotation = Quaternion.Euler(90, 0, 0);
-            }
+            Ray camRay = cam.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
 
-            Vector3 vO = CalculateVelocity(hit.point, shootPoint.position, 1f);
-            
-            Visualize(vO);
-            
-            //transform.rotation = Quaternion.LookRotation(vO);
-            //transform.Rotate(0, -90, 0);
-
-            if (Input.GetMouseButtonDown(0))
+            if (Physics.Raycast(camRay, out hit, 100f, layer))
             {
-                Rigidbody obj = Instantiate(bulletPrefabs, shootPoint.position, Quaternion.identity);
-                obj.velocity = vO;
+                cursor.SetActive(true);
+                cursor.transform.position = hit.point + Vector3.up * 0.1f;
+                if (Physics.Raycast(camRay, out hit, 100f, wallLayer))
+                {
+                    cursor.transform.rotation = Quaternion.LookRotation(player.transform.position, Vector3.down);
+                }
+                if (Physics.Raycast(camRay, out hit, 100f, floorLayer))
+                {
+                    cursor.transform.rotation = Quaternion.Euler(90, 0, 0);
+                }
+
+                Vector3 vO = CalculateVelocity(hit.point, shootPoint.position, 1f);
+
+                Visualize(vO);
+
+                //transform.rotation = Quaternion.LookRotation(vO);
+                //transform.Rotate(0, -90, 0);
+
+                if (Input.GetMouseButtonDown(0))
+                {
+                    Rigidbody obj = Instantiate(bulletPrefabs, shootPoint.position, Quaternion.identity);
+                    obj.velocity = vO;
+                }
             }
-        }
-        else
-        {
-            cursor.SetActive(false);
+            else
+            {
+                cursor.SetActive(false);
+            }
         }
     }
 
     void Visualize(Vector3 vo)
     {
-        for (int i = 0; i <lineSegment; i++)
+        if (shootMode == true)
         {
-            Vector3 pos = CalculatePosInTime(vo, i / (float) lineSegment);
-            lineVisual.SetPosition(i, pos);
+            for (int i = 0; i < lineSegment; i++)
+            {
+                Vector3 pos = CalculatePosInTime(vo, i / (float)lineSegment);
+                lineVisual.SetPosition(i, pos);
+            }
         }
     }
 

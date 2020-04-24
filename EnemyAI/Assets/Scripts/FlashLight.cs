@@ -4,19 +4,17 @@ using UnityEngine;
 
 public class FlashLight : MonoBehaviour
 {
-    public GameObject player;
     public Light lightComp;
+    public GameObject mainCam;
     void Start()
     {
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        //sets the light object at the same rotation and position as player
-        lightComp.transform.position = player.transform.position;
-        lightComp.transform.rotation = player.transform.rotation;
-
+        lightComp.transform.rotation = mainCam.transform.rotation;
         //If you press F then turn on and off camera
         if (Input.GetKeyDown(KeyCode.F))
         {
@@ -27,8 +25,7 @@ public class FlashLight : MonoBehaviour
             else
             {
                 lightComp.intensity = 5;
-            }
-            
+            }   
         }
     }
 }
