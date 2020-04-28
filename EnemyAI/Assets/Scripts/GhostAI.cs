@@ -18,7 +18,7 @@ public class GhostAI : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        target = PlayerManager.instance.player.transform;
+        target = GameManagerL.instance.player.transform;
         //randomSpot = Random.Range(0, moveSpots.Length);
         waitTime = startWaitTime;
     }

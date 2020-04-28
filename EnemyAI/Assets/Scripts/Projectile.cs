@@ -12,6 +12,10 @@ public class Projectile : MonoBehaviour
     public LayerMask floorLayer;
     public Transform shootPoint;
     public LineRenderer lineVisual;
+    private RaycastHit hit;
+    public Material matWhite;
+    public Material matRed;
+    private Vector3 vO;
     public int lineSegment = 10;
     public bool shootMode = false;
 
@@ -21,13 +25,13 @@ public class Projectile : MonoBehaviour
     {
         cam = Camera.main;
         lineVisual.positionCount = lineSegment;
+        //lineVisual = GetComponent<LineRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
         LaunchProjectile();
-
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
@@ -53,12 +57,10 @@ public class Projectile : MonoBehaviour
         if (shootMode == true)
         {
             Ray camRay = cam.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
 
             if (Physics.Raycast(camRay, out hit, 100f, layer))
             {
-                cursor.SetActive(true);
-                cursor.transform.position = hit.point + Vector3.up * 0.1f;
+                lineVisual.material = matWhite;
                 if (Physics.Raycast(camRay, out hit, 100f, wallLayer))
                 {
                     cursor.transform.rotation = Quaternion.LookRotation(player.transform.position, Vector3.down);
@@ -68,12 +70,25 @@ public class Projectile : MonoBehaviour
                     cursor.transform.rotation = Quaternion.Euler(90, 0, 0);
                 }
 
-                Vector3 vO = CalculateVelocity(hit.point, shootPoint.position, 1f);
-
+                if (Vector3.Distance(player.transform.position, hit.point) <= 10)
+                {
+                    vO = CalculateVelocity(hit.point, shootPoint.transform.position, 1f);
+                    cursor.transform.position = hit.point + Vector3.up * 0.1f;
+                    lineVisual.material = matWhite;
+                    lineVisual.startWidth = .01f;
+                    lineVisual.endWidth = .18f;
+                    cursor.SetActive(true);
+                }
+                else
+                {
+                    hit.point = hit.point;
+                    cursor.transform.position = cursor.transform.position;
+                    lineVisual.startWidth = 0f;
+                    lineVisual.endWidth = 0f;
+                    cursor.SetActive(false);
+                    lineVisual.material = matRed;
+                }
                 Visualize(vO);
-
-                //transform.rotation = Quaternion.LookRotation(vO);
-                //transform.Rotate(0, -90, 0);
 
                 if (Input.GetMouseButtonDown(0))
                 {
@@ -83,7 +98,12 @@ public class Projectile : MonoBehaviour
             }
             else
             {
-                cursor.SetActive(false);
+                if (vO != null)
+                {
+                    cursor.transform.position = hit.point + Vector3.up * 0.1f;
+                    Visualize(vO);
+                    lineVisual.material = matWhite;
+                }
             }
         }
     }

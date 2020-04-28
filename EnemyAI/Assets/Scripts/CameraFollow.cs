@@ -75,13 +75,11 @@ public class CameraFollow : MonoBehaviour
             {
                 if (hit.collider.gameObject.tag == "Sphere")
                 {
-                    PlayerManager.keys++;
+                    GameManagerL.keys++;
                     Debug.Log("Key picked up");
-                    Debug.Log(PlayerManager.keys);
+                    Debug.Log(GameManagerL.keys);
                     Destroy(hit.collider.gameObject);
                 }
-
-
             }
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
             //Debug.Log("Did Hit");
