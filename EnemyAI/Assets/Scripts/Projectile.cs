@@ -78,31 +78,32 @@ public class Projectile : MonoBehaviour
                     lineVisual.startWidth = .01f;
                     lineVisual.endWidth = .18f;
                     cursor.SetActive(true);
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        Rigidbody obj = Instantiate(bulletPrefabs, shootPoint.position, Quaternion.identity);
+                        obj.velocity = vO;
+                    }
                 }
                 else
                 {
-                    hit.point = hit.point;
-                    cursor.transform.position = cursor.transform.position;
-                    lineVisual.startWidth = 0f;
-                    lineVisual.endWidth = 0f;
-                    cursor.SetActive(false);
+                    hit.point = player.transform.position;
+                    cursor.transform.position = CalculateVelocity(hit.point, shootPoint.transform.position, 1f);
+                    //lineVisual.startWidth = 0f;
+                    //lineVisual.endWidth = 0f;
+                    // cursor.SetActive(false);
+                    // lineVisual.transform.rotation = player.transform.rotation;
                     lineVisual.material = matRed;
                 }
                 Visualize(vO);
-
-                if (Input.GetMouseButtonDown(0))
-                {
-                    Rigidbody obj = Instantiate(bulletPrefabs, shootPoint.position, Quaternion.identity);
-                    obj.velocity = vO;
-                }
             }
             else
             {
                 if (vO != null)
                 {
-                    cursor.transform.position = hit.point + Vector3.up * 0.1f;
+
+                    cursor.transform.position = CalculateVelocity(hit.point, shootPoint.transform.position, 1f);
                     Visualize(vO);
-                    lineVisual.material = matWhite;
+                    lineVisual.material = matRed;
                 }
             }
         }
