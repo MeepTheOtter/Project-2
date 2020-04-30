@@ -8,6 +8,7 @@ public class GhostAI : MonoBehaviour
     public float lookRadius = 4f;
     NavMeshAgent agent;
     Transform target;
+    public GameObject player;
     private int randomSpot;
     private float waitTime;
     public float wanderTimer;
@@ -18,7 +19,7 @@ public class GhostAI : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        target = GameManagerL.instance.player.transform;
+        target = player.transform;
         //randomSpot = Random.Range(0, moveSpots.Length);
         waitTime = startWaitTime;
     }

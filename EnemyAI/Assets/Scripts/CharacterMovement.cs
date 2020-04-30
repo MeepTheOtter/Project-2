@@ -7,6 +7,7 @@ public class CharacterMovement : MonoBehaviour
     float rotation = 0f;
     float gravity = 1f;
     float inputSensitivity = 150;
+    float speed = 1;
     CharacterController CC;
     Vector3 Movement;
     Vector3 Rotation;
@@ -27,7 +28,11 @@ public class CharacterMovement : MonoBehaviour
         Movement += transform.forward * Input.GetAxis("Horizontal");
         Movement -= transform.up * gravity;
 
-        CC.Move(Movement * Time.deltaTime);
+
+        if (Input.GetKey(KeyCode.LeftShift)) speed = 2;
+        else speed = 1;
+
+        CC.Move(Movement * Time.deltaTime * speed);
         /////////////////////////////////////////////////////
         //PLAYER ROTATION
 

@@ -18,13 +18,13 @@ public class FlashLight : MonoBehaviour
         //If you press F then turn on and off camera
         if (Input.GetKeyDown(KeyCode.F))
         {
-            if(lightComp.intensity == 5)
+            if(lightComp.intensity == 7)
             {
                 lightComp.intensity = 0;
             }
             else
             {
-                lightComp.intensity = 5;
+                lightComp.intensity = 7;
             }   
         }
     }

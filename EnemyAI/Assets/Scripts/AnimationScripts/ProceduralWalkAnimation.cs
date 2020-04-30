@@ -9,7 +9,7 @@ public class ProceduralWalkAnimation : MonoBehaviour
     float magnitude = 2;
 
     Vector3 Currpos;
-    float p = 1;
+    //float p = 1;
 
     public float sinWaveSpeed;
     public float sinWaveOffset;
