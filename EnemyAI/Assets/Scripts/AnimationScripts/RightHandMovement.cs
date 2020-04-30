@@ -5,7 +5,7 @@ using UnityEngine;
 public class RightHandMovement : MonoBehaviour
 {
     Vector3 startLocation;
-    float YMULT = .05f;
+    float ZMULT = .05f;
     float XMULT = .05f;
 
     float Speed = 7;
@@ -26,7 +26,7 @@ public class RightHandMovement : MonoBehaviour
         float offset = Mathf.Sin(time);
 
         Vector3 finalLocation = startLocation;
-        finalLocation += new Vector3(offset * XMULT, offset * YMULT, 0);
+        finalLocation += new Vector3(offset * XMULT, 0.1f, 0);
         transform.localPosition = finalLocation;
     }
 }
