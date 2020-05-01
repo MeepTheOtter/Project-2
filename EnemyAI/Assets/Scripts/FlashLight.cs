@@ -1,14 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FlashLight : MonoBehaviour
 {
     public Light lightComp;
     public GameObject mainCam;
+    public RawImage flashlight;
+
     void Start()
     {
-
+        flashlight.color = Color.green;
     }
 
     // Update is called once per frame
@@ -20,10 +23,12 @@ public class FlashLight : MonoBehaviour
         {
             if(lightComp.intensity == 7)
             {
+                flashlight.color = Color.gray;
                 lightComp.intensity = 0;
             }
             else
             {
+                flashlight.color = Color.green;
                 lightComp.intensity = 7;
             }   
         }

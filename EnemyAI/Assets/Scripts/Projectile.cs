@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Projectile : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class Projectile : MonoBehaviour
     private Vector3 vO;
     public int lineSegment = 10;
     public bool shootMode = false;
+    public GameObject reticle;
 
     private Camera cam;
     // Start is called before the first frame update
@@ -37,6 +39,7 @@ public class Projectile : MonoBehaviour
         {
             if (shootMode == true)
             {
+                reticle.SetActive(true);
                 shootMode = false;
                 lineVisual.startWidth = 0f;
                 lineVisual.endWidth = 0f;
@@ -44,6 +47,7 @@ public class Projectile : MonoBehaviour
             }
             else
             {
+                reticle.SetActive(false);
                 shootMode = true;
                 lineVisual.startWidth = .01f;
                 lineVisual.endWidth = .18f;
