@@ -63,11 +63,13 @@ public class Projectile : MonoBehaviour
                 lineVisual.material = matWhite;
                 if (Physics.Raycast(camRay, out hit, 100f, wallLayer))
                 {
-                    cursor.transform.rotation = Quaternion.LookRotation(player.transform.position, Vector3.down);
+                   cursor.transform.position = hit.point; //hit.normal * 0.1f;
+                   cursor.transform.rotation = Quaternion.LookRotation(Vector3.up, hit.normal); 
                 }
                 if (Physics.Raycast(camRay, out hit, 100f, floorLayer))
                 {
                     cursor.transform.rotation = Quaternion.Euler(90, 0, 0);
+                   
                 }
 
                 if (Vector3.Distance(player.transform.position, hit.point) <= 10)
