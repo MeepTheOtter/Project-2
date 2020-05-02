@@ -8,6 +8,7 @@ public class CharacterMovement : MonoBehaviour
     float gravity = 1f;
     float inputSensitivity = 150;
     float speed = 1;
+    public bool running = false;
     CharacterController CC;
     Vector3 Movement;
     Vector3 Rotation;
@@ -29,8 +30,16 @@ public class CharacterMovement : MonoBehaviour
         Movement -= transform.up * gravity;
 
 
-        if (Input.GetKey(KeyCode.LeftShift)) speed = 2;
-        else speed = 1;
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            speed = 2;
+            running = true;
+        }
+        else
+        {
+            speed = 1;
+            running = false;
+        }
 
         CC.Move(Movement * Time.deltaTime * speed);
         /////////////////////////////////////////////////////

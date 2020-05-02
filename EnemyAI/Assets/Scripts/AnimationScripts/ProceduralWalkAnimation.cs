@@ -6,16 +6,15 @@ public class ProceduralWalkAnimation : MonoBehaviour
 {
     Vector3 startingPosition;
     public Transform HintPos;
-    float magnitude = 2;
 
     Vector3 Currpos;
     //float p = 1;
 
-    public float sinWaveSpeed;
+    float sinWaveSpeed = 7;
     public float sinWaveOffset;
 
     float feetDistancing = 1.5f;
-    float footHeight = .2f;
+    float footHeight = .5f;
     float howFarFeetGo = .5f;
     CharacterMovement player;
 
@@ -30,9 +29,19 @@ public class ProceduralWalkAnimation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        float RunOffset = 1;
+        if (player.running)
+        {
+            sinWaveSpeed = 9;
+            RunOffset = 1.4f;
+        }
+        else
+        {
+            sinWaveSpeed = 7;
+        }
         float time = (Time.time + sinWaveOffset * Mathf.PI) * sinWaveSpeed;
-        float offsetForward = Mathf.Cos(time)/magnitude;
-        float offestY = Mathf.Cos(time)/magnitude;
+        float offsetForward = Mathf.Cos(time)/2;
+        float offestY = Mathf.Cos(time)/2 * RunOffset;
         if (offestY < 0) offestY = 0;
         
         Vector3 finalPosition = startingPosition;
@@ -54,6 +63,7 @@ public class ProceduralWalkAnimation : MonoBehaviour
         Vector3 localRight = transform.worldToLocalMatrix.MultiplyVector(player.gameObject.transform.right);
         A -= localRight * Input.GetAxis("Horizontal");
         A += localForward * Input.GetAxis("Vertical");
+        A.y = 0;
         return A;
     }
 }
