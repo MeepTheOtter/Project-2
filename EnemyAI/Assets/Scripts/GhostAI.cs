@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -9,18 +10,22 @@ public class GhostAI : MonoBehaviour
     NavMeshAgent agent;
     Transform target;
     public GameObject player;
-    private int randomSpot;
+ 
     private float waitTime;
     public float wanderTimer;
     public float startWaitTime;
     public float wanderRadius = 50f;
+    public GameObject bPos;
+    private bool bottleNear = false;
+   
+
 
     // Start is called before the first frame update
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         target = player.transform;
-        //randomSpot = Random.Range(0, moveSpots.Length);
+       
         waitTime = startWaitTime;
     }
 
@@ -29,7 +34,7 @@ public class GhostAI : MonoBehaviour
     {
         float distance = Vector3.Distance(target.position, transform.position);
 
-        if (distance <= lookRadius)
+        if (distance <= lookRadius && bottleNear == false)
         {
             agent.SetDestination(target.position);
             waitTime = startWaitTime;
@@ -47,6 +52,29 @@ public class GhostAI : MonoBehaviour
                 waitTime += Time.deltaTime;
             }
         }
+         if(bPos != null) 
+        {
+            if (Vector3.Distance(bPos.transform.position, transform.position) <= 1f) 
+            {
+                if (waitTime >= wanderTimer)
+                {
+                    Vector3 newPos = RandomNavSphere(transform.position, wanderRadius, -1);
+                    agent.SetDestination(newPos);
+                    waitTime = 0;
+                }
+                else
+                {
+                    waitTime += Time.deltaTime;
+                }
+
+                Destroy(bPos);
+                bottleNear = false;
+            }
+
+        }    
+        
+        
+        
     }
 
     public static Vector3 RandomNavSphere(Vector3 origin, float distance, int layermask)
@@ -61,6 +89,17 @@ public class GhostAI : MonoBehaviour
 
         return navHit.position;
     }
+
+    public void AttractMe(GameObject bottle)
+    {
+        bPos = bottle;
+        bottleNear = true;
+        agent.SetDestination(bPos.transform.position);
+        waitTime = startWaitTime;
+        
+
+    }
+
 
 
     void OnDrawGizmosSelected()
