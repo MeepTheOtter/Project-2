@@ -27,7 +27,7 @@ public class EnemyManagment : MonoBehaviour
     {
         for (int i = 0; i < Ghosts.Count; i++)
         {
-            if (Vector3.Distance(Ghosts[i].transform.position, bottle.transform.position) < 5)
+            if (Vector3.Distance(Ghosts[i].transform.position, bottle.transform.position) < 10)
             {
                 Ghosts[i].GetComponent<GhostAI>().AttractMe(bottle); 
             }

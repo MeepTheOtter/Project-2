@@ -85,25 +85,27 @@ public class Projectile : MonoBehaviour
                     lineVisual.startWidth = .01f;
                     lineVisual.endWidth = .18f;
                     cursor.SetActive(true);
+
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        Rigidbody obj = Instantiate(bulletPrefabs, shootPoint.position, Quaternion.identity);
+                        obj.velocity = vO;
+
+                    }
                 }
                 else
                 {
                     
-                   /* hit.point = hit.point;
+                    hit.point = hit.point;
                     cursor.transform.position = cursor.transform.position;
                     lineVisual.startWidth = 0f;
                     lineVisual.endWidth = 0f;
                     cursor.SetActive(false);
-                    lineVisual.material = matRed;*/
+                    lineVisual.material = matRed;
                 }
                 Visualize(vO);
 
-                if (Input.GetMouseButtonDown(0))
-                {
-                    Rigidbody obj = Instantiate(bulletPrefabs, shootPoint.position, Quaternion.identity);
-                    obj.velocity = vO;
-                  
-                }
+               
             }
             else
             {

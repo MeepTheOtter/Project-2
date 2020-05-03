@@ -54,9 +54,9 @@ public class GhostAI : MonoBehaviour
         }
          if(bPos != null) 
         {
-            if (Vector3.Distance(bPos.transform.position, transform.position) <= 1f) 
+            if (Vector3.Distance(bPos.transform.position, transform.position) <= .01f) 
             {
-                if (waitTime >= wanderTimer)
+                /*if (waitTime >= wanderTimer)
                 {
                     Vector3 newPos = RandomNavSphere(transform.position, wanderRadius, -1);
                     agent.SetDestination(newPos);
@@ -65,15 +65,19 @@ public class GhostAI : MonoBehaviour
                 else
                 {
                     waitTime += Time.deltaTime;
-                }
+                }*/
 
                 Destroy(bPos);
                 bottleNear = false;
             }
+            else
+            {
+                waitTime = 0;
+            }
 
-        }    
-        
-        
+        }
+
+        //print(waitTime);
         
     }
 

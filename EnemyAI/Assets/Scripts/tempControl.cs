@@ -33,7 +33,7 @@ public class tempControl : MonoBehaviour
         timer++;
         isColliding = false;
         //Debug.Log(isColliding);
-        Debug.Log(temp);
+        //Debug.Log(temp);
     }
 
     /*private void OnCollisionEnter(Collision collision)
